@@ -1,0 +1,24 @@
+<!-- star/templates/star/sitemap.html -->
+{% extends 'star/base.html' %}
+
+{% block title %}Карта сайта{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Карта сайта</h1>
+
+    {% if stars %}
+        <div class="list-group mt-3">
+            {% for star in stars %}
+                <a href="{{ star.get_absolute_url }}" class="list-group-item list-group-item-action">
+                    {{ star.name }}
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info mt-3" role="alert">
+            Знаменитости не найдены.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
