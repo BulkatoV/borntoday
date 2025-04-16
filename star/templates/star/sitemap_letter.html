@@ -1,10 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<!-- star/templates/star/sitemap_letter.html -->
+{% extends 'star/base.html' %}
+
+{% block title %}Карта сайта - Знаменитости на букву {{ current_letter }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Карта сайта - Знаменитости на букву {{ current_letter }}</h1>
+
+    {% include 'star/_alphabet_nav.html' %}
+
+    {% if stars %}
+        <div class="list-group mt-3">
+            {% for star in stars %}
+                <a href="{{ star.get_absolute_url }}" class="list-group-item list-group-item-action">
+                    {{ star.name }}
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info mt-3" role="alert">
+            Нет знаменитостей на букву {{ current_letter }}.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

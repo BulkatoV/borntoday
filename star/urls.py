@@ -5,7 +5,7 @@ urlpatterns = [
    path('', views.index, name='star_index'),  # Главная страница
    path('person/<slug:slug>/', views.star_detail, name='star_detail'), # Детальная страница по slug
    path('sitemap/', views.sitemap, name='sitemap'),
-
+   path('sitemap/<str:letter>/', views.sitemap_letter, name='sitemap_letter'),
    # Страница «О сайте»
    path('about/', views.about, name='about'),
 

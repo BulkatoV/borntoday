@@ -1,10 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'star/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">О нашем сайте</h1>
+
+    <!-- Основной контент страницы -->
+    <div class="row mb-5">
+        <div class="col-md-8">
+            <p>Здесь вы можете найти информацию о знаменитостях со всего мира.</p>
+            <!-- Другой контент страницы -->
+        </div>
+    </div>
+
+    <!-- Блок статистики -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Статистика сайта</h3>
+        </div>
+        <div class="card-body">
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <div class="stat-item p-3">
+                        <h2 class="text-primary">{{ stats.stars_count }}</h2>
+                        <p class="lead">Знаменитостей</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-item p-3">
+                        <h2 class="text-success">{{ stats.countries_count }}</h2>
+                        <p class="lead">Стран</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-item p-3">
+                        <h2 class="text-warning">{{ stats.categories_count }}</h2>
+                        <p class="lead">Категорий</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .stat-item {
+        transition: transform 0.3s;
+    }
+    .stat-item:hover {
+        transform: scale(1.05);
+    }
+</style>
+{% endblock %}

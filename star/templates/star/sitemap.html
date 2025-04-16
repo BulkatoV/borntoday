@@ -1,11 +1,13 @@
 <!-- star/templates/star/sitemap.html -->
 {% extends 'star/base.html' %}
 
-{% block title %}Карта сайта{% endblock %}
+{% block title %}Карта сайта - Все знаменитости{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-    <h1>Карта сайта</h1>
+    <h1>Карта сайта - Все знаменитости</h1>
+
+    {% include 'star/_alphabet_nav.html' %}
 
     {% if stars %}
         <div class="list-group mt-3">

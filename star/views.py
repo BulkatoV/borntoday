@@ -6,6 +6,7 @@ from .models import Star, Country, Category
 from .forms import StarForm
 
 
+RUSSIAN_ALPHABET = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЭЮЯ'
 def index(request):
     # Получаем все опубликованные звезды
     all_stars = Star.objects.filter(is_published=True)
@@ -63,24 +64,6 @@ def star_detail(request, slug):
     }
 
     return render(request, 'star/star-detail.html', context)
-
-
-def about(request):
-    """
-    Страница «О сайте».
-    """
-    # Получаем все страны и категории для меню
-    countries = Country.objects.all()
-    categories = Category.objects.all()
-
-    context = {
-        'title': 'О сайте',
-        'description': 'Сайт создан в учебных целях. Данные сгенерированы нейросетью.',
-        'star_countries': countries,
-        'star_categories': categories,
-    }
-    return render(request, 'star/about.html', context)
-
 
 def stars_by_country(request, slug):
     country = get_object_or_404(Country, slug=slug)
@@ -148,6 +131,18 @@ def add_star(request):
     return render(request, 'star/add-star.html', context)
 
 
+def get_alphabet_context():
+    # Получаем буквы, на которые есть знаменитости
+    existing_letters = set()
+    for letter in RUSSIAN_ALPHABET:
+        if Star.objects.filter(is_published=True, name__istartswith=letter).exists():
+            existing_letters.add(letter)
+
+    return {
+        'alphabet': RUSSIAN_ALPHABET,
+        'existing_letters': existing_letters,
+    }
+
 def sitemap(request):
     stars = Star.objects.filter(is_published=True).order_by('name')
     countries = Country.objects.all()
@@ -157,5 +152,38 @@ def sitemap(request):
         'stars': stars,
         'star_countries': countries,
         'star_categories': categories,
+        **get_alphabet_context(),
     }
     return render(request, 'star/sitemap.html', context)
+
+def sitemap_letter(request, letter):
+    letter = letter.upper()  # Приводим к верхнему регистру
+    stars = Star.objects.filter(
+        is_published=True,
+        name__istartswith=letter
+    ).order_by('name')
+
+    context = {
+        'stars': stars,
+        'current_letter': letter,
+        'star_countries': Country.objects.all(),
+        'star_categories': Category.objects.all(),
+        **get_alphabet_context(),
+    }
+    return render(request, 'star/sitemap_letter.html', context)
+
+
+def about(request):
+    # Получаем статистику
+    stats = {
+        'stars_count': Star.objects.filter(is_published=True).count(),
+        'countries_count': Country.objects.count(),
+        'categories_count': Category.objects.count(),
+    }
+
+    context = {
+        'title': 'О сайте',
+        'stats': stats,
+    }
+
+    return render(request, 'star/about.html', context)
